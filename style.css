@@ -15,13 +15,5 @@ body{
     display:block;
 }
 
-/* Invisible clickable areas */
-
-.link{
-    position:absolute;
-    display:block;
-}
-
-
 
 
