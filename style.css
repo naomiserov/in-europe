@@ -1,0 +1,67 @@
+body{
+    margin:0;
+    background:black;
+}
+
+.container{
+    position:relative;
+    width:100%;
+    max-width:900px;
+    margin:auto;
+}
+
+.background{
+    width:100%;
+    display:block;
+}
+
+/* Invisible clickable areas */
+
+.link{
+    position:absolute;
+    display:block;
+}
+
+/* Adjust these positions if needed */
+
+.stokbrood{
+    top:63%;
+    left:36%;
+    width:45%;
+    height:4%;
+}
+
+.mu{
+    top:68%;
+    left:36%;
+    width:45%;
+    height:4%;
+}
+
+.cheburashka{
+    top:72%;
+    left:36%;
+    width:45%;
+    height:4%;
+}
+
+.horse{
+    top:76%;
+    left:36%;
+    width:45%;
+    height:4%;
+}
+
+.wandering{
+    top:80%;
+    left:36%;
+    width:45%;
+    height:4%;
+}
+
+.sisi{
+    top:84%;
+    left:36%;
+    width:45%;
+    height:4%;
+}
