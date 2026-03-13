@@ -3,7 +3,7 @@ body{
     background:white;
 }
 
-img[usemap] {
+img[usemap]{
     width: 700 px;
     height: auto;
     display: block;
