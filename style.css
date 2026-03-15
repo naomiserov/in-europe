@@ -13,7 +13,7 @@ img[usemap] {
 /* Desktop only: make it smaller */
 @media (min-width: 756px) {
   img[usemap] {
-    width: 20%; !important
+    width: 70%; !important
     height: auto; !important
   }
 }
