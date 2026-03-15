@@ -7,7 +7,7 @@ div {
 }
 
 p, pre{
-    font-family: "TimesNewR, Times New Roman, Times, serif";
+    font-family: "TimesNewR", "Times New Roman", Times, serif;
     src: url('times new roman.ttf');
     }
 
