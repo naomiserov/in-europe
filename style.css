@@ -5,7 +5,7 @@ body{
 
 @media (min-width: 768 px) {
       .map-wrapper{
-        transform: scale (0.5);
+        transform: scale (0.25);
         transform-origin: top left;
       }
     }
