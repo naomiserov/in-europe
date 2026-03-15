@@ -3,12 +3,20 @@ body{
     background:white;
 }
 
+/* Default (mobile): full size */
+img[usemap] {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Desktop only: make it smaller */
 @media (min-width: 768 px) {
-      .map-wrapper{
-        transform: scale (0.25);
-        transform-origin: top left;
-      }
-    }
+  img[usemap] {
+    width: 50%; /* adjust this to whatever size you want */
+    height: auto;
+  }
+}
 
 
 
