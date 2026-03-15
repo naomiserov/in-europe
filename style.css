@@ -5,8 +5,8 @@ body{
 
 /* Default (mobile): full size */
 img[usemap] {
-  width: 100%;
-  height: auto;
+  width: 100%; !important
+  height: auto; !important
   display: block;
 }
 
