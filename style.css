@@ -5,16 +5,16 @@ body{
 
 /* Default (mobile): full size */
 img[usemap] {
-  width: 100%; !important
-  height: auto; !important
+  width: 100% !important;
+  height: auto !important;
   display: block;
 }
 
 /* Desktop only: make it smaller */
 @media (min-width: 756px) {
   img[usemap] {
-    width: 20%; !important
-    height: auto; !important
+    width: 20% !important;
+    height: auto !important;
   }
 }
 
