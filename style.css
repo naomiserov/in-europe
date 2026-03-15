@@ -9,16 +9,7 @@ body{
         transform-origin: top left;
       }
     }
-img[usemap]{
-    width: 700 px;
-    height: auto;
-    display: block;
-}
 
-.background{
-    width:100%;
-    display:block;
-}
 
 
 
