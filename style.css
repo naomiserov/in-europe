@@ -3,19 +3,20 @@ body{
     background:white;
 }
 
-/* Default (mobile): full size */
-img[usemap] {
+.map-wrapper {
+  width: 100%;
+}
+
+@media (min-width: 756px) {
+  .map-wrapper {
+    width: 25%;
+  }
+}
+
+.map-wrapper img {
   width: 100%;
   height: auto;
   display: block;
-}
-
-/* Desktop only: make it smaller */
-@media (min-width: 756px) {
-  img[usemap] {
-    width: 25%;
-    height: auto;
-  }
 }
 
 
