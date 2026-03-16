@@ -1,1 +1,60 @@
+@font-face { font-family: "Times Newer Roman"; src: url('../fonts/TimesNewerRoman-Regular.otf'); }
+html,body {
+   margin: 0;
+    border: 0;
+    padding: 0;
+    height: auto;
+    width: 60%;
+   background-color: white;
+    -webkit-overflow-scrolling: touch;
+    overflow-x: hidden;
+   
+}
+}
+a, p, div, summary,th, td {
+    text-decoration: none;
+    font-family: "Times New Roman","Times","Times Newer Roman","Songti SC","宋体",STSong, Simsun,'Noto Serif CJK SC', 'Source Han Serif SC', ‘Source Han Serif’, source-han-serif-sc,TimesNewRoman,Times New Roman,Times,Baskerville,Georgia,serif;
+    font-weight: 400;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    hyphens: auto;
+}
+hr{
+    color: white;
+    border-top: 0;
+    border-bottom: dotted 1px black;
+}
+.text, summary{
+    line-height: 16px;
+    font-size: 14px;
+    margin: 0;
+    display: block;
+    color: black;
+    width: auto;
+    -webkit-hyphens: auto;
+    -ms-hyphens: auto;
+    hyphens: auto;
+}
+
+.main{
+    position: relative;
+    width: 100%;
+    height: auto;
+}
+.main-images{
+    position: relative;
+    width: 100%;
+    max-width: 900px;
+    max-height: auto;
+}
+
+.link-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.link-list a {
+  display: block;
+}
+
 
