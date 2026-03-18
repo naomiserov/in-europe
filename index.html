@@ -23,5 +23,37 @@
 <script>
   imageMapResize();
 </script>
+<script>
+const hotspots = document.querySelectorAll('.hotspot');
+
+hotspots.forEach(hotspot => {
+  let isDragging = false;
+  let offsetX, offsetY;
+
+  hotspot.addEventListener('mousedown', e => {
+    isDragging = true;
+    offsetX = e.offsetX;
+    offsetY = e.offsetY;
+  });
+
+  document.addEventListener('mousemove', e => {
+    if (!isDragging) return;
+    const wrapper = hotspot.parentElement.getBoundingClientRect();
+    let left = e.clientX - wrapper.left - offsetX;
+    let top = e.clientY - wrapper.top - offsetY;
+
+    // Keep hotspot inside image
+    left = Math.max(0, Math.min(left, wrapper.width - hotspot.offsetWidth));
+    top = Math.max(0, Math.min(top, wrapper.height - hotspot.offsetHeight));
+
+    hotspot.style.left = left + 'px';
+    hotspot.style.top = top + 'px';
+  });
+
+  document.addEventListener('mouseup', e => {
+    if (isDragging) isDragging = false;
+  });
+});
+</script>
 </body>
 </html>
