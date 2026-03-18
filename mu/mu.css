@@ -43,24 +43,14 @@ hr{
 }
 .main-images{
     position: relative;
-    width: 100%;
+    width: 100%; !important
     max-width: 900px;
     max-height: auto;
 }
-.map-wrapper {
-  width: 100%;
-}
-
-@media (min-width: 756px) {
-  .map-wrapper {
-    width: 25%;
-  }
-}
-
-.map-wrapper img {
-  width: 100%;
-  height: auto;
-  display: block;
+@media (max-width: 768px) {
+   img {
+      max-width: 25%;
+   }
 }
 
 .link-list {
