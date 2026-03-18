@@ -18,14 +18,18 @@ body{
   height: auto;
   display: block;
 }
-area {
-  cursor: pointer;
+
+
+.hotspot {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  z-index: 10;
 }
 
-img {
-  touch-action: manipulation;
+/* 🔍 TEMP: show hotspots (remove later) */
+.hotspot {
+  background: rgba(255, 0, 0, 0.4);
 }
-
 
 
 
