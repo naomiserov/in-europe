@@ -47,6 +47,21 @@ hr{
     max-width: 900px;
     max-height: auto;
 }
+.map-wrapper {
+  width: 100%;
+}
+
+@media (min-width: 756px) {
+  .map-wrapper {
+    width: 25%;
+  }
+}
+
+.map-wrapper img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
 
 .link-list {
   display: flex;
