@@ -43,8 +43,8 @@ hr{
 }
 .main-images{
     position: relative;
-    width: 100%; !important
-    max-width: 900px;
+    width: 100%; !important;
+    max-width: 900px; !important;
     max-height: auto;
 }
 @media (max-width: 768px) {
