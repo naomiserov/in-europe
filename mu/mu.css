@@ -63,4 +63,21 @@ hr{
   display: block;
 }
 
+.text-container {
+  max-width: 365px;
+  margin: 30px auto;
+  padding: 20px;
+  margin-left: 5px;
+  
+}
 
+.text-container img {
+  width: 100%;
+  max-width: calc(100vw - 60px);
+}
+
+}
+.text-container p1 {
+  margin: 0;
+  padding: 0;
+}
