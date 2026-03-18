@@ -18,6 +18,13 @@ body{
   height: auto;
   display: block;
 }
+area {
+  cursor: pointer;
+}
+
+img {
+  touch-action: manipulation;
+}
 
 
 
