@@ -5,6 +5,7 @@ body{
 
 .map-wrapper {
   width: 100%;
+  position: relative;
 }
 
 @media (min-width: 756px) {
@@ -22,7 +23,6 @@ body{
 
 .hotspot {
   position: absolute;
-  transform: translate(-50%, -50%);
   z-index: 10;
 }
 
