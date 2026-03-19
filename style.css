@@ -26,10 +26,6 @@ body{
   z-index: 10;
 }
 
-/* 🔍 TEMP: show hotspots (remove later) */
-.hotspot {
-  background: rgba(255, 0, 0, 0.4);
-}
 
 
 
