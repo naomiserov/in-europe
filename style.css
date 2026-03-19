@@ -4,9 +4,9 @@ body{
 }
 
 .map-wrapper {
-  position: relative;
-  width: 100px;
-  height: 150px;
+  width: 100%
+    position: relative;
+
 }
 
 @media (min-width: 756px) {
