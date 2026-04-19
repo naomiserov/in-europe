@@ -10,7 +10,7 @@ html,body {
     overflow-x: hidden;
    }
 
-a, p, div, summary,th, td {
+a, p, pre, div, summary,th, td {
     text-decoration: none;
     font-family: "Times New Roman","Times","Times Newer Roman","Songti SC","宋体",STSong, Simsun,'Noto Serif CJK SC', 'Source Han Serif SC', ‘Source Han Serif’, source-han-serif-sc,TimesNewRoman,Times New Roman,Times,Baskerville,Georgia,serif;
     font-weight: 400;
