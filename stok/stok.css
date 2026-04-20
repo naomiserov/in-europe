@@ -11,7 +11,7 @@ p, pre{
     src: url('times new roman.ttf');
     }
 
-.text-container {
+.text-container, ul{
   max-width: 365px;
   margin: 30px auto;
   padding: 20px;
