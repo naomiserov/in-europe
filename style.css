@@ -27,6 +27,7 @@ body{
   z-index: 10;
 }
 
+@font-face { font-family: "Times Newer Roman"; src: url('../fonts/TimesNewerRoman-Regular.otf'); }
 
 .cv-button {
     position: fixed;
