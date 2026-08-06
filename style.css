@@ -41,7 +41,8 @@ body{
  
     background: #ffffff;
     color: #111111;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: "Times New Roman","Times","Times Newer Roman","Songti SC","宋体",STSong, Simsun,'Noto Serif CJK SC', 'Source Han Serif SC', ‘Source Han Serif’, source-han-serif-sc,TimesNewRoman,Times New Roman,Times,Baskerville,Georgia,serif;
+    font-weight: 400;
     font-size: 12px;
     font-weight: 600;
     letter-spacing: 0.06em;
