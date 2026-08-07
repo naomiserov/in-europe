@@ -3,91 +3,27 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-NPZKD6B6DD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-NPZKD6B6DD');
+</script>
+<link rel="stylesheet" type="text/css" href="../mu/mu.css?v=1">
 <title>Cultural Capital</title>
-<style>
-  html, body {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-  }
-  .stage {
-    position: relative;
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .slide {
-    position: absolute;
-    max-width: 92vw;
-    max-height: 92vh;
-    width: auto;
-    height: auto;
-    object-fit: contain;
-    opacity: 0;
-    transform: scale(1.015);
-    filter: blur(6px);
-    transition: opacity 900ms cubic-bezier(.22,.61,.36,1),
-                transform 900ms cubic-bezier(.22,.61,.36,1),
-                filter 900ms cubic-bezier(.22,.61,.36,1);
-  }
-  .slide.active {
-    opacity: 1;
-    transform: scale(1);
-    filter: blur(0px);
-    z-index: 2;
-  }
-  .slide.exit {
-    opacity: 0;
-    transform: scale(0.985);
-    filter: blur(6px);
-    z-index: 1;
-  }
-</style>
+
 </head>
 <body>
 
-<div class="stage" id="stage">
-  <img class="slide" src="cultslide2.jpg" alt="slide 2">
-  <img class="slide" src="cultslide4.jpg" alt="slide 4">
-  <a href="culture.html" class="slide slide-link" aria-label="Go to link">
-    <img src="cultslide4.jpg" alt="slide 4">
-  </a>
+<div class="text-container">
+<h3>Is my CV more impressive than yours? Probably not.</h3>
+<a href="culture.html">Click here to see how you compare culturally</a>
 </div>
 
-<script>
-  const slides = document.querySelectorAll('.slide');
-  const total = slides.length;
-  let current = 0;
-
-  const HOLD_MS = 8000;       // how long each slide stays fully visible
-  const TRANSITION_MS = 900;  // crossfade duration (must match CSS transition)
-
-  function showSlide(index) {
-    slides.forEach((s, i) => {
-      s.classList.remove('active', 'exit');
-      if (i === index) {
-        s.classList.add('active');
-      } else if (i === index - 1) {
-        s.classList.add('exit');
-      }
-    });
-  }
-
-  function advance() {
-    showSlide(current);
-    if (current < total - 1) {
-      current++;
-      setTimeout(advance, HOLD_MS + TRANSITION_MS);
-    }
-    // no further calls after the last slide — it stays on screen
-  }
-
-  advance();
-</script>
+<
 
 </body>
 </html>
