@@ -48,17 +48,103 @@ points += Number(document.getElementById("joke").value);
 
 
 
-document.getElementById("result").innerHTML =
-
-"Assessment completed.<br><br>Your data has been archived.";
-
-
-// Later:
-// upload portrait to Firebase Storage
-// save answers to Firestore
+const file =
+document.getElementById("portrait").files[0];
 
 
-console.log("Total:", points);
+if(!file){
+
+alert("Please upload a portrait.");
+
+return;
+
+}
+
+
+// upload image
+
+const imageRef =
+ref(
+storage,
+"portraits/" + Date.now() + "_" + file.name
+);
+
+
+await uploadBytes(imageRef,file);
+
+
+const portraitURL =
+await getDownloadURL(imageRef);
+
+
+
+// collect answers
+
+const answers = {
+
+accent:
+Number(document.getElementById("accent").value),
+
+languages:
+Number(document.getElementById("languages").value || 0),
+
+gdp:
+Number(document.getElementById("gdp").value || 0),
+
+parents:
+Number(document.getElementById("parents").value),
+
+bothParents:
+Number(document.getElementById("bothParents").value),
+
+
+books:
+Number(document.getElementById("books").value || 0),
+
+works:
+Number(document.getElementById("works").value || 0),
+
+atelier:
+Number(document.getElementById("atelier").value),
+
+
+master:
+Number(document.getElementById("master").value || 0),
+
+bachelor:
+Number(document.getElementById("bachelor").value || 0),
+
+languageLevel:
+Number(document.getElementById("languageLevel").value)
+
+};
+
+
+
+// save submission
+
+await addDoc(
+collection(db,"submissions"),
+{
+
+portraitURL,
+
+total:points,
+
+answers,
+
+timestamp:
+Date.now()
+
+}
+
+);
+
+
+
+alert("Submission archived.");
+
+});
 
 
 });
