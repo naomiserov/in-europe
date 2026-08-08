@@ -15,112 +15,164 @@ import {
 
 const form = document.getElementById("capitalForm");
 
+
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  let points = 0;
+  try {
 
-  points += Number(document.getElementById("accent").value);
-  points += Number(document.getElementById("languages").value || 0);
-  points += Number(document.getElementById("gdp").value || 0);
-  points += Number(document.getElementById("parents").value);
-  points += Number(document.getElementById("bothParents").value);
-  points += Number(document.getElementById("fatherGDP").value || 0);
-  points += Number(document.getElementById("motherGDP").value || 0);
-  points += Number(document.getElementById("fatherDegree").value);
-  points += Number(document.getElementById("motherDegree").value);
-  points += Number(document.getElementById("license").value);
-  points += Number(document.getElementById("joke").value);
+    // =========================
+    // CALCULATE TOTAL POINTS
+    // =========================
 
+    let points = 0;
 
-  // Collect answers
-  const answers = {
-    accent: Number(document.getElementById("accent").value),
-
-    languages:
-      Number(document.getElementById("languages").value || 0),
-
-    gdp:
-      Number(document.getElementById("gdp").value || 0),
-
-    parents:
-      Number(document.getElementById("parents").value),
-
-    bothParents:
-      Number(document.getElementById("bothParents").value),
-
-    fatherGDP:
-      Number(document.getElementById("fatherGDP").value || 0),
-
-    motherGDP:
-      Number(document.getElementById("motherGDP").value || 0),
-
-    fatherDegree:
-      Number(document.getElementById("fatherDegree").value),
-
-    motherDegree:
-      Number(document.getElementById("motherDegree").value),
-
-    license:
-      Number(document.getElementById("license").value),
-
-    joke:
-      Number(document.getElementById("joke").value),
-
-    books:
-      Number(document.getElementById("books").value || 0),
-
-    works:
-      Number(document.getElementById("works").value || 0),
-
-    atelier:
-      Number(document.getElementById("atelier").value),
-
-    master:
-      Number(document.getElementById("master").value || 0),
-
-    bachelor:
-      Number(document.getElementById("bachelor").value || 0),
-
-    languageLevel:
-      Number(document.getElementById("languageLevel").value)
-  };
+    points += Number(document.getElementById("accent").value);
+    points += Number(document.getElementById("languages").value || 0);
+    points += Number(document.getElementById("gdp").value || 0);
+    points += Number(document.getElementById("parents").value);
+    points += Number(document.getElementById("bothParents").value);
+    points += Number(document.getElementById("fatherGDP").value || 0);
+    points += Number(document.getElementById("motherGDP").value || 0);
+    points += Number(document.getElementById("fatherDegree").value);
+    points += Number(document.getElementById("motherDegree").value);
+    points += Number(document.getElementById("license").value);
+    points += Number(document.getElementById("joke").value);
 
 
-  // Check portrait
-  const file =
-    document.getElementById("portrait").files[0];
+    // =========================
+    // COLLECT ANSWERS
+    // =========================
 
-  if (!file) {
-    alert("Please upload a portrait.");
-    return;
+    const answers = {
+
+      accent:
+        Number(document.getElementById("accent").value),
+
+      languages:
+        Number(document.getElementById("languages").value || 0),
+
+      gdp:
+        Number(document.getElementById("gdp").value || 0),
+
+      parents:
+        Number(document.getElementById("parents").value),
+
+      bothParents:
+        Number(document.getElementById("bothParents").value),
+
+      fatherGDP:
+        Number(document.getElementById("fatherGDP").value || 0),
+
+      motherGDP:
+        Number(document.getElementById("motherGDP").value || 0),
+
+      fatherDegree:
+        Number(document.getElementById("fatherDegree").value),
+
+      motherDegree:
+        Number(document.getElementById("motherDegree").value),
+
+      license:
+        Number(document.getElementById("license").value),
+
+      joke:
+        Number(document.getElementById("joke").value),
+
+      books:
+        Number(document.getElementById("books").value || 0),
+
+      works:
+        Number(document.getElementById("works").value || 0),
+
+      atelier:
+        Number(document.getElementById("atelier").value),
+
+      master:
+        Number(document.getElementById("master").value || 0),
+
+      bachelor:
+        Number(document.getElementById("bachelor").value || 0),
+
+      languageLevel:
+        Number(document.getElementById("languageLevel").value || 0)
+    };
+
+
+    // =========================
+    // CHECK PORTRAIT
+    // =========================
+
+    const file =
+      document.getElementById("portrait").files[0];
+
+    if (!file) {
+      alert("Please upload a portrait.");
+      return;
+    }
+
+
+    // =========================
+    // UPLOAD PORTRAIT
+    // =========================
+
+    const imageRef = storageRef(
+      storage,
+      "portraits/" + Date.now() + "_" + file.name
+    );
+
+    await uploadBytes(imageRef, file);
+
+    const portraitURL =
+      await getDownloadURL(imageRef);
+
+    console.log(
+      "Portrait uploaded:",
+      portraitURL
+    );
+
+
+    // =========================
+    // CREATE DATABASE REFERENCE
+    // =========================
+
+    const submissionRef = push(
+      databaseRef(db, "submissions")
+    );
+
+
+    // =========================
+    // SAVE SUBMISSION
+    // =========================
+
+    await set(submissionRef, {
+
+      portraitURL: portraitURL,
+
+      total: points,
+
+      timestamp: Date.now(),
+
+      answers: answers
+
+    });
+
+
+    console.log("DATABASE SAVED!");
+
+    alert("Submission archived.");
+
+  } catch (error) {
+
+    console.error(
+      "ERROR SAVING SUBMISSION:",
+      error
+    );
+
+    alert(
+      "There was a problem saving the submission. Check the browser console."
+    );
+
   }
 
-
-  // Upload portrait to Firebase Storage
-const imageRef = storageRef(
-  storage,
-  "portraits/" + Date.now() + "_" + file.name
-);
-  await uploadBytes(imageRef, file);
-
-  const portraitURL =
-    await getDownloadURL(imageRef);
-
-  console.log("Portrait uploaded:", portraitURL);
-
-
-  // Save submission to Realtime Database
-
-
-  await set(submissionRef, {
-    portraitURL: portraitURL,
-    total: points,
-    timestamp: Date.now(),
-    answers: answers
-  });
-
-  console.log("DATABASE SAVED!");
-
-  alert("Submission archived.");
 });
