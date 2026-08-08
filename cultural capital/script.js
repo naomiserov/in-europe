@@ -111,10 +111,7 @@ const imageRef = storageRef(
 
 
   // Save submission to Realtime Database
-const imageRef = storageRef(
-  storage,
-  "portraits/" + Date.now() + "_" + file.name
-);
+
 
   await set(submissionRef, {
     portraitURL: portraitURL,
