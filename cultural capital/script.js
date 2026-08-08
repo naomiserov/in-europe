@@ -145,17 +145,20 @@ form.addEventListener("submit", async (e) => {
     // SAVE SUBMISSION
     // =========================
 
-    await set(submissionRef, {
+    // Save submission to Realtime Database
 
-      portraitURL: portraitURL,
+const submissionRef = push(
+  databaseRef(db, "submissions")
+);
 
-      total: points,
+await set(submissionRef, {
+  portraitURL: portraitURL,
+  total: points,
+  timestamp: Date.now(),
+  answers: answers
+});
 
-      timestamp: Date.now(),
-
-      answers: answers
-
-    });
+console.log("DATABASE SAVED!");
 
 
     console.log("DATABASE SAVED!");
