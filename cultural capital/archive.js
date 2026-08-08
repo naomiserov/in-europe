@@ -1,129 +1,115 @@
-import { db } from "./firebase-config.js";
+import { db } from "./firebase.js";
 
 import {
-collection,
-getDocs
-}
-from
-"https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+  ref,
+  onValue
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
+
+const graph = document.getElementById("graph");
+
+const popup = document.getElementById("popup");
+const largePortrait = document.getElementById("largePortrait");
+const totalElement = document.getElementById("total");
+const answersElement = document.getElementById("answers");
 
 
-const graph =
-document.getElementById("graph");
+// Listen for all submissions
+const submissionsRef = ref(db, "submissions");
+
+onValue(submissionsRef, (snapshot) => {
+
+  graph.innerHTML = "";
+
+  const data = snapshot.val();
+
+  if (!data) {
+    graph.innerHTML = "<p>No submissions yet.</p>";
+    return;
+  }
+
+  const submissions = Object.values(data);
+
+  // Find highest and lowest scores
+  const scores = submissions.map(
+    submission => Number(submission.total) || 0
+  );
+
+  const minScore = Math.min(...scores);
+  const maxScore = Math.max(...scores);
+
+  submissions.forEach((submission) => {
+
+    const portrait = document.createElement("img");
+
+    portrait.className = "archivePortrait";
+
+    portrait.src = submission.portraitURL;
+
+    portrait.alt = "Cultural capital submission";
+
+    // Position horizontally according to score
+    let position = 50;
+
+    if (maxScore !== minScore) {
+      position =
+        ((Number(submission.total) - minScore) /
+        (maxScore - minScore)) * 90 + 5;
+    }
+
+    portrait.style.left = position + "%";
 
 
-const submissions =
-await getDocs(collection(db,"submissions"));
+    // Give each portrait a different vertical position
+    const randomHeight =
+      10 + Math.random() * 70;
+
+    portrait.style.top =
+      randomHeight + "%";
 
 
-let index=0;
+    // Click portrait
+    portrait.addEventListener("click", () => {
+
+      largePortrait.src =
+        submission.portraitURL;
+
+      totalElement.textContent =
+        "Total: " + submission.total;
+
+      answersElement.innerHTML = "";
+
+      if (submission.answers) {
+
+        Object.entries(submission.answers)
+          .forEach(([question, value]) => {
+
+            const line =
+              document.createElement("p");
+
+            line.textContent =
+              question + ": " + value;
+
+            answersElement.appendChild(line);
+
+          });
+
+      }
+
+      popup.classList.remove("hidden");
+
+    });
 
 
-submissions.forEach(doc=>{
+    graph.appendChild(portrait);
 
-
-const data=doc.data();
-
-
-let portrait =
-document.createElement("img");
-
-
-portrait.src=data.portraitURL;
-
-
-portrait.className="portrait";
-
-
-// horizontal position
-let x =
-(index+1)*100;
-
-
-// vertical position based on total
-
-let y =
-Math.max(
-50,
-700-(data.total*5)
-);
-
-
-// slight horizontal variation
-
-x += Math.random()*40-20;
-
-
-portrait.style.left=x+"px";
-
-portrait.style.bottom=y+"px";
-
-
-portrait.onclick=()=>{
-
-openPopup(data);
-
-};
-
-
-graph.appendChild(portrait);
-
-
-index++;
-
+  });
 
 });
 
 
+// Close popup
+window.closePopup = function () {
 
+  popup.classList.add("hidden");
 
-function openPopup(data){
-
-
-document
-.getElementById("popup")
-.classList.remove("hidden");
-
-
-document
-.getElementById("largePortrait")
-.src=data.portraitURL;
-
-
-document
-.getElementById("total")
-.innerHTML=
-"Total: "+data.total;
-
-
-let text="";
-
-
-for(let key in data.answers){
-
-text+=
-key+": "
-+
-data.answers[key]
-+
-"<br>";
-
-}
-
-
-document
-.getElementById("answers")
-.innerHTML=text;
-
-
-}
-
-
-
-window.closePopup=function(){
-
-document
-.getElementById("popup")
-.classList.add("hidden");
-
-}
+};
