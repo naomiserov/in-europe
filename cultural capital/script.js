@@ -111,8 +111,9 @@ const imageRef = storageRef(
 
 
   // Save submission to Realtime Database
-  const submissionRef = push(
-  databaseRef(db, "submissions")
+const imageRef = storageRef(
+  storage,
+  "portraits/" + Date.now() + "_" + file.name
 );
 
   await set(submissionRef, {
