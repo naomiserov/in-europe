@@ -128,3 +128,71 @@ object-fit:cover;
 display:none;
 
 }
+
+#graph {
+  position: relative;
+  width: 100%;
+  height: 700px;
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+  overflow: hidden;
+}
+
+.archivePortrait {
+  position: absolute;
+
+  width: 80px;
+  height: 80px;
+
+  object-fit: cover;
+
+  border-radius: 50%;
+
+  transform: translate(-50%, -50%);
+
+  cursor: pointer;
+
+  transition: transform 0.2s ease;
+}
+
+.archivePortrait:hover {
+  transform: translate(-50%, -50%) scale(1.15);
+}
+
+
+#popup {
+  position: fixed;
+
+  top: 50%;
+  left: 50%;
+
+  transform: translate(-50%, -50%);
+
+  background: white;
+
+  padding: 30px;
+
+  max-width: 500px;
+  max-height: 80vh;
+
+  overflow: auto;
+
+  border: 1px solid black;
+
+  z-index: 1000;
+}
+
+
+#largePortrait {
+  width: 250px;
+  height: 250px;
+
+  object-fit: cover;
+
+  border-radius: 50%;
+}
+
+
+.hidden {
+  display: none;
+}
