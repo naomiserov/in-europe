@@ -31,7 +31,7 @@ import { getDatabase } from
 const firebaseConfig = {
   apiKey: "YOUR_API_KEY",
   authDomain: "cultural-capital-25cee.firebaseapp.com",
-  databaseURL: "https://console.firebase.google.com/project/cultural-capital-25cee/database/cultural-capital-25cee-default-rtdb/data/~2F",
+  databaseURL: "https://cultural-capital-25cee-default-rtdb.europe-west1.firebasedatabase.app",
   projectId: "cultural-capital-25cee",
   storageBucket: "cultural-capital-25cee.firebasestorage.app",
   messagingSenderId: "430405827158",
