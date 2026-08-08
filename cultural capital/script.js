@@ -98,11 +98,10 @@ form.addEventListener("submit", async (e) => {
 
 
   // Upload portrait to Firebase Storage
-  const imageRef = ref(
-    storage,
-    "portraits/" + Date.now() + "_" + file.name
-  );
-
+const imageRef = storageRef(
+  storage,
+  "portraits/" + Date.now() + "_" + file.name
+);
   await uploadBytes(imageRef, file);
 
   const portraitURL =
