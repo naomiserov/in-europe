@@ -1,12 +1,13 @@
 import { db, storage } from "./firebase.js";
 
 import {
-  ref,
+  ref as databaseRef,
   push,
   set
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
 
 import {
+  ref as storageRef,
   uploadBytes,
   getDownloadURL
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-storage.js";
