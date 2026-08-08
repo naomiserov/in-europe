@@ -1,9 +1,11 @@
 import { db, storage } from "./firebase.js";
 
 import {
-    collection,
-    addDoc
-} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+    getDatabase,
+    ref,
+    push,
+    set
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
 
 
 import {
