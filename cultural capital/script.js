@@ -78,6 +78,20 @@ await uploadBytes(imageRef,file);
 const portraitURL =
 await getDownloadURL(imageRef);
 
+console.log("Portrait uploaded:", portraitURL);
+
+const submissionRef = push(
+    ref(db, "submissions")
+);
+
+await set(submissionRef, {
+    portraitURL: portraitURL,
+    total: points,
+    timestamp: Date.now(),
+    answers: answers
+});
+
+console.log("DATABASE SAVED!");
 
 
 // collect answers
