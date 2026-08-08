@@ -150,7 +150,7 @@ await set(submissionRef, {
     answers: answers
 });
 
-
+console.log("DATABASE SAVED!");
 
 alert("Submission archived.");
 
