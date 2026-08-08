@@ -125,22 +125,16 @@ Number(document.getElementById("languageLevel").value)
 
 // save submission
 
-await addDoc(
-collection(db,"submissions"),
-{
-
-portraitURL,
-
-total:points,
-
-answers,
-
-timestamp:
-Date.now()
-
-}
-
+const submissionRef = push(
+    ref(db, "submissions")
 );
+
+await set(submissionRef, {
+    portraitURL: portraitURL,
+    total: points,
+    timestamp: Date.now(),
+    answers: answers
+});
 
 
 
