@@ -196,3 +196,28 @@ display:none;
 .hidden {
   display: none;
 }
+
+.graphScale {
+position: absolute;
+left: 5%;
+right: 5%;
+bottom: 20px;
+height: 30px;
+}
+
+.scaleLine {
+position: absolute;
+left: 0;
+right: 0;
+top: 0;
+border-top: 1px solid black;
+}
+
+.scaleNumber {
+position: absolute;
+top: 8px;
+transform: translateX(-50%);
+font-size: 14px;
+}
+
+
