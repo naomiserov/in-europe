@@ -32,7 +32,6 @@ function openSubmission(submission) {
         return;
     }
 
-    // Portrait
     if (largePortrait) {
         if (submission.portraitURL) {
             largePortrait.src = submission.portraitURL;
@@ -43,19 +42,18 @@ function openSubmission(submission) {
         }
     }
 
-    // Total score
     if (totalElement) {
         totalElement.textContent =
             "Total: " + (Number(submission.total) || 0);
     }
 
-    // Answers
     if (answersElement) {
         answersElement.innerHTML = "";
 
         if (submission.answers) {
             Object.entries(submission.answers).forEach(
                 ([question, value]) => {
+
                     const line = document.createElement("p");
 
                     line.textContent =
@@ -67,35 +65,30 @@ function openSubmission(submission) {
         }
     }
 
-    // Show popup
     if (popup) {
         popup.classList.remove("hidden");
     }
 }
 
 // --------------------------------------------------
-// LOAD SUBMISSIONS FROM FIREBASE
+// LOAD SUBMISSIONS
 // --------------------------------------------------
 
 onValue(
     submissionsRef,
     (snapshot) => {
 
-        // Clear existing graph
         graph.innerHTML = "";
 
         const data = snapshot.val();
 
-        // No submissions
         if (!data) {
             graph.textContent = "No submissions yet.";
             return;
         }
 
-        // Convert Firebase object into array
         const submissions = Object.values(data);
 
-        // No valid submissions
         if (submissions.length === 0) {
             graph.textContent = "No submissions yet.";
             return;
@@ -113,17 +106,21 @@ onValue(
         const maxScore = Math.max(...scores);
 
         // --------------------------------------------------
-        // SCORE SCALE
+        // GRAPH SCALE
         // --------------------------------------------------
 
         const scale = document.createElement("div");
+
         scale.className = "graphScale";
 
+        // Vertical axis line
         const axis = document.createElement("div");
+
         axis.className = "scaleLine";
 
         scale.appendChild(axis);
 
+        // Numbers
         const steps = 10;
 
         for (let i = 0; i <= steps; i++) {
@@ -142,8 +139,15 @@ onValue(
 
             number.className = "scaleNumber";
 
+            // IMPORTANT:
+            // Position relative to graphScale
+            number.style.position = "absolute";
+
             number.style.bottom =
                 (i / steps) * 100 + "%";
+
+            number.style.transform =
+                "translateY(50%)";
 
             scale.appendChild(number);
         }
@@ -156,27 +160,29 @@ onValue(
 
         submissions.forEach((submission) => {
 
-            // Don't create an image if there is no portrait
             if (!submission.portraitURL) {
                 return;
             }
 
-            const portrait = document.createElement("img");
+            const portrait =
+                document.createElement("img");
 
-            portrait.className = "archivePortrait";
+            portrait.className =
+                "archivePortrait";
 
-            portrait.src = submission.portraitURL;
+            portrait.src =
+                submission.portraitURL;
 
-            portrait.alt = "Cultural capital submission";
+            portrait.alt =
+                "Cultural capital submission";
 
-            // Score
             const score =
                 Number(submission.total) || 0;
 
-            // Vertical position
             let position = 50;
 
             if (maxScore !== minScore) {
+
                 position =
                     ((score - minScore) /
                     (maxScore - minScore)) * 90 + 5;
@@ -185,10 +191,9 @@ onValue(
             portrait.style.bottom =
                 position + "%";
 
-            // Horizontal position
-            portrait.style.left = "60%";
+            portrait.style.left =
+                "60%";
 
-            // Click portrait to open submission
             portrait.addEventListener(
                 "click",
                 () => {
