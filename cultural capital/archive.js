@@ -12,8 +12,42 @@ const largePortrait = document.getElementById("largePortrait");
 const totalElement = document.getElementById("total");
 const answersElement = document.getElementById("answers");
 
-// Firebase submissions
 const submissionsRef = ref(db, "submissions");
+
+function showSubmission(submission) {
+
+largePortrait.src = submission.portraitURL;
+
+totalElement.textContent =
+"Total: " + submission.total;
+
+answersElement.innerHTML = "";
+
+if (submission.answers) {
+
+```
+Object.keys(submission.answers).forEach(function(key) {
+
+  const line = document.createElement("p");
+
+  line.textContent =
+    key + ": " + submission.answers[key];
+
+  answersElement.appendChild(line);
+
+});
+```
+
+}
+
+popup.classList.remove("hidden");
+}
+
+window.closePopup = function() {
+
+popup.classList.add("hidden");
+
+};
 
 onValue(submissionsRef, function(snapshot) {
 
@@ -21,43 +55,61 @@ graph.innerHTML = "";
 
 const data = snapshot.val();
 
-// No submissions
 if (!data) {
-graph.innerHTML = "<p>No submissions yet.</p>";
-return;
-}
-
-const submissions = Object.values(data);
-
-// Find score range
-const scores = submissions.map(function(submission) {
-return Number(submission.total) || 0;
-});
-
-const minScore = Math.min.apply(null, scores);
-const maxScore = Math.max.apply(null, scores);
-
-// =================================
-// VERTICAL SCORE AXIS
-// =================================
-
-const scale = document.createElement("div");
-
-scale.className = "graphScale";
-
-const scaleLine = document.createElement("div");
-
-scaleLine.className = "scaleLine";
-
-scale.appendChild(scaleLine);
-
-// Ten numbered divisions
-const numberOfSteps = 10;
-
-for (let i = 0; i <= numberOfSteps; i++) {
 
 ```
-const number = document.createElement("span");
+graph.innerHTML =
+  "<p>No submissions yet.</p>";
+
+return;
+```
+
+}
+
+const submissions =
+Object.values(data);
+
+const scores =
+submissions.map(function(submission) {
+
+```
+  return Number(submission.total) || 0;
+
+});
+```
+
+const minScore =
+Math.min(...scores);
+
+const maxScore =
+Math.max(...scores);
+
+// SCORE AXIS
+
+const scale =
+document.createElement("div");
+
+scale.className =
+"graphScale";
+
+const line =
+document.createElement("div");
+
+line.className =
+"scaleLine";
+
+scale.appendChild(line);
+
+// SCORE NUMBERS
+
+const steps = 10;
+
+for (let i = 0; i <= steps; i++) {
+
+```
+const number =
+  document.createElement("span");
+
 
 let value;
 
@@ -70,20 +122,21 @@ if (maxScore === minScore) {
 
   value =
     minScore +
-    ((maxScore - minScore) / numberOfSteps) * i;
+    ((maxScore - minScore) / steps) * i;
 
 }
 
 
-number.textContent = Math.round(value);
+number.textContent =
+  Math.round(value);
 
-number.className = "scaleNumber";
+
+number.className =
+  "scaleNumber";
 
 
-// Bottom = low score
-// Top = high score
 number.style.bottom =
-  (i / numberOfSteps) * 100 + "%";
+  (i / steps) * 100 + "%";
 
 
 scale.appendChild(number);
@@ -93,17 +146,17 @@ scale.appendChild(number);
 
 graph.appendChild(scale);
 
-// =================================
 // PORTRAITS
-// =================================
 
-submissions.forEach(function(submission, index) {
+submissions.forEach(function(submission) {
 
 ```
-const portrait = document.createElement("img");
+const portrait =
+  document.createElement("img");
 
 
-portrait.className = "archivePortrait";
+portrait.className =
+  "archivePortrait";
 
 
 portrait.src =
@@ -118,14 +171,14 @@ const score =
   Number(submission.total) || 0;
 
 
-// Calculate vertical position
+// Vertical position based on score
 
-let verticalPosition = 50;
+let position = 50;
 
 
 if (maxScore !== minScore) {
 
-  verticalPosition =
+  position =
     ((score - minScore) /
     (maxScore - minScore)) * 90 + 5;
 
@@ -133,59 +186,21 @@ if (maxScore !== minScore) {
 
 
 portrait.style.bottom =
-  verticalPosition + "%";
+  position + "%";
 
 
-// Keep portraits on one side
+// All portraits on one side
 
-portrait.style.left = "60%";
-
-
-// =================================
-// CLICK PORTRAIT
-// =================================
-
-portrait.addEventListener("click", function() {
-
-  largePortrait.src =
-    submission.portraitURL;
+portrait.style.left =
+  "60%";
 
 
-  totalElement.textContent =
-    "Total: " + score;
+portrait.onclick =
+  function() {
 
+    showSubmission(submission);
 
-  answersElement.innerHTML = "";
-
-
-  if (submission.answers) {
-
-    Object.entries(submission.answers).forEach(
-      function(entry) {
-
-        const question = entry[0];
-        const value = entry[1];
-
-
-        const line =
-          document.createElement("p");
-
-
-        line.textContent =
-          question + ": " + value;
-
-
-        answersElement.appendChild(line);
-
-      }
-    );
-
-  }
-
-
-  popup.classList.remove("hidden");
-
-});
+  };
 
 
 graph.appendChild(portrait);
@@ -194,13 +209,3 @@ graph.appendChild(portrait);
 });
 
 });
-
-// =================================
-// CLOSE POPUP
-// =================================
-
-window.closePopup = function() {
-
-popup.classList.add("hidden");
-
-};
