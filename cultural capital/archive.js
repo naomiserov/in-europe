@@ -6,7 +6,6 @@ onValue
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
 
 const graph = document.getElementById("graph");
-
 const popup = document.getElementById("popup");
 const largePortrait = document.getElementById("largePortrait");
 const totalElement = document.getElementById("total");
@@ -14,7 +13,11 @@ const answersElement = document.getElementById("answers");
 
 const submissionsRef = ref(db, "submissions");
 
-function showSubmission(submission) {
+window.closePopup = function () {
+popup.classList.add("hidden");
+};
+
+function openSubmission(submission) {
 
 largePortrait.src = submission.portraitURL;
 
@@ -26,16 +29,18 @@ answersElement.innerHTML = "";
 if (submission.answers) {
 
 ```
-Object.keys(submission.answers).forEach(function(key) {
+Object.entries(submission.answers).forEach(
+  ([question, value]) => {
 
-  const line = document.createElement("p");
+    const line =
+      document.createElement("p");
 
-  line.textContent =
-    key + ": " + submission.answers[key];
+    line.textContent =
+      question + ": " + value;
 
-  answersElement.appendChild(line);
-
-});
+    answersElement.appendChild(line);
+  }
+);
 ```
 
 }
@@ -43,40 +48,24 @@ Object.keys(submission.answers).forEach(function(key) {
 popup.classList.remove("hidden");
 }
 
-window.closePopup = function() {
-
-popup.classList.add("hidden");
-
-};
-
-onValue(submissionsRef, function(snapshot) {
+onValue(submissionsRef, (snapshot) => {
 
 graph.innerHTML = "";
 
 const data = snapshot.val();
 
 if (!data) {
-
-```
-graph.innerHTML =
-  "<p>No submissions yet.</p>";
-
+graph.innerHTML = "<p>No submissions yet.</p>";
 return;
-```
-
 }
 
 const submissions =
 Object.values(data);
 
 const scores =
-submissions.map(function(submission) {
-
-```
-  return Number(submission.total) || 0;
-
-});
-```
+submissions.map(
+submission => Number(submission.total) || 0
+);
 
 const minScore =
 Math.min(...scores);
@@ -84,7 +73,7 @@ Math.min(...scores);
 const maxScore =
 Math.max(...scores);
 
-// SCORE AXIS
+// Create vertical score axis
 
 const scale =
 document.createElement("div");
@@ -92,15 +81,15 @@ document.createElement("div");
 scale.className =
 "graphScale";
 
-const line =
+const axis =
 document.createElement("div");
 
-line.className =
+axis.className =
 "scaleLine";
 
-scale.appendChild(line);
+scale.appendChild(axis);
 
-// SCORE NUMBERS
+// Add numbers
 
 const steps = 10;
 
@@ -111,19 +100,14 @@ const number =
   document.createElement("span");
 
 
-let value;
+let value = minScore;
 
 
-if (maxScore === minScore) {
-
-  value = minScore;
-
-} else {
+if (maxScore !== minScore) {
 
   value =
     minScore +
     ((maxScore - minScore) / steps) * i;
-
 }
 
 
@@ -146,9 +130,9 @@ scale.appendChild(number);
 
 graph.appendChild(scale);
 
-// PORTRAITS
+// Add portraits
 
-submissions.forEach(function(submission) {
+submissions.forEach((submission) => {
 
 ```
 const portrait =
@@ -171,8 +155,6 @@ const score =
   Number(submission.total) || 0;
 
 
-// Vertical position based on score
-
 let position = 50;
 
 
@@ -181,7 +163,6 @@ if (maxScore !== minScore) {
   position =
     ((score - minScore) /
     (maxScore - minScore)) * 90 + 5;
-
 }
 
 
@@ -189,23 +170,21 @@ portrait.style.bottom =
   position + "%";
 
 
-// All portraits on one side
-
 portrait.style.left =
   "60%";
 
 
-portrait.onclick =
-  function() {
-
-    showSubmission(submission);
-
-  };
+portrait.addEventListener(
+  "click",
+  function () {
+    openSubmission(submission);
+  }
+);
 
 
 graph.appendChild(portrait);
 ```
 
-});
+}
 
 });
