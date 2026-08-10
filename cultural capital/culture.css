@@ -228,12 +228,12 @@ font-size: 14px;
 }
 
 .graphScale {
-  position: absolute;
-  left: 30px;
-  top: 5%;
-  bottom: 5%;
-  width: 45px;
-}
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    height: 100%;
+  }
 
 .scaleLine {
   position: absolute;
@@ -244,11 +244,9 @@ font-size: 14px;
 }
 
 .scaleNumber {
-  position: absolute;
-  left: -5px;
-  transform: translateY(50%);
-  font-size: 14px;
-  text-align: right;
+    position: absolute;
+    left: 0;
+    white-space: nowrap;
 }
 
 .archivePortrait {
