@@ -12,15 +12,16 @@ const largePortrait = document.getElementById("largePortrait");
 const totalElement = document.getElementById("total");
 const answersElement = document.getElementById("answers");
 
-// Listen for all submissions
+// Firebase submissions
 const submissionsRef = ref(db, "submissions");
 
-onValue(submissionsRef, (snapshot) => {
+onValue(submissionsRef, function(snapshot) {
 
 graph.innerHTML = "";
 
 const data = snapshot.val();
 
+// No submissions
 if (!data) {
 graph.innerHTML = "<p>No submissions yet.</p>";
 return;
@@ -28,16 +29,17 @@ return;
 
 const submissions = Object.values(data);
 
-const scores = submissions.map(
-submission => Number(submission.total) || 0
-);
+// Find score range
+const scores = submissions.map(function(submission) {
+return Number(submission.total) || 0;
+});
 
-const minScore = Math.min(...scores);
-const maxScore = Math.max(...scores);
+const minScore = Math.min.apply(null, scores);
+const maxScore = Math.max.apply(null, scores);
 
-// =========================
+// =================================
 // VERTICAL SCORE AXIS
-// =========================
+// =================================
 
 const scale = document.createElement("div");
 
@@ -49,6 +51,7 @@ scaleLine.className = "scaleLine";
 
 scale.appendChild(scaleLine);
 
+// Ten numbered divisions
 const numberOfSteps = 10;
 
 for (let i = 0; i <= numberOfSteps; i++) {
@@ -57,6 +60,7 @@ for (let i = 0; i <= numberOfSteps; i++) {
 const number = document.createElement("span");
 
 let value;
+
 
 if (maxScore === minScore) {
 
@@ -70,14 +74,17 @@ if (maxScore === minScore) {
 
 }
 
-number.textContent =
-  Math.round(value);
 
-number.className =
-  "scaleNumber";
+number.textContent = Math.round(value);
 
+number.className = "scaleNumber";
+
+
+// Bottom = low score
+// Top = high score
 number.style.bottom =
   (i / numberOfSteps) * 100 + "%";
+
 
 scale.appendChild(number);
 ```
@@ -86,21 +93,22 @@ scale.appendChild(number);
 
 graph.appendChild(scale);
 
-// =========================
+// =================================
 // PORTRAITS
-// =========================
+// =================================
 
-submissions.forEach((submission, index) => {
+submissions.forEach(function(submission, index) {
 
 ```
-const portrait =
-  document.createElement("img");
+const portrait = document.createElement("img");
 
-portrait.className =
-  "archivePortrait";
+
+portrait.className = "archivePortrait";
+
 
 portrait.src =
   submission.portraitURL;
+
 
 portrait.alt =
   "Cultural capital submission";
@@ -110,9 +118,10 @@ const score =
   Number(submission.total) || 0;
 
 
-// Vertical position = score
+// Calculate vertical position
 
 let verticalPosition = 50;
+
 
 if (maxScore !== minScore) {
 
@@ -122,104 +131,76 @@ if (maxScore !== minScore) {
 
 }
 
+
 portrait.style.bottom =
   verticalPosition + "%";
 
 
-// All portraits stay on the right
-// of the vertical score axis
+// Keep portraits on one side
 
-portrait.style.left =
-  "60%";
+portrait.style.left = "60%";
 
 
-// If several portraits have the same
-// score, arrange them horizontally
-
-const sameScore =
-  submissions.filter(
-    item =>
-      Number(item.total) === score
-  );
-
-const positionInGroup =
-  sameScore.indexOf(submission);
-
-if (sameScore.length > 1) {
-
-  const spacing = 12;
-
-  const totalWidth =
-    (sameScore.length - 1) * spacing;
-
-  portrait.style.left =
-    (60 - totalWidth / 2 +
-    positionInGroup * spacing) + "%";
-
-}
-
-
-// =========================
+// =================================
 // CLICK PORTRAIT
-// =========================
+// =================================
 
-portrait.addEventListener(
-  "click",
-  () => {
+portrait.addEventListener("click", function() {
 
-    largePortrait.src =
-      submission.portraitURL;
-
-    totalElement.textContent =
-      "Total: " + submission.total;
-
-    answersElement.innerHTML = "";
+  largePortrait.src =
+    submission.portraitURL;
 
 
-    if (submission.answers) {
+  totalElement.textContent =
+    "Total: " + score;
 
-      Object.entries(
-        submission.answers
-      ).forEach(([question, value]) => {
+
+  answersElement.innerHTML = "";
+
+
+  if (submission.answers) {
+
+    Object.entries(submission.answers).forEach(
+      function(entry) {
+
+        const question = entry[0];
+        const value = entry[1];
+
 
         const line =
           document.createElement("p");
 
+
         line.textContent =
           question + ": " + value;
 
-        answersElement.appendChild(
-          line
-        );
 
-      });
+        answersElement.appendChild(line);
 
-    }
-
-    popup.classList.remove(
-      "hidden"
+      }
     );
 
   }
-);
 
 
-graph.appendChild(
-  portrait
-);
+  popup.classList.remove("hidden");
+
+});
+
+
+graph.appendChild(portrait);
 ```
 
 });
 
 });
 
-// Close popup
+// =================================
+// CLOSE POPUP
+// =================================
 
-window.closePopup = function () {
+window.closePopup = function() {
 
-popup.classList.add(
-"hidden"
-);
+popup.classList.add("hidden");
 
 };
-
