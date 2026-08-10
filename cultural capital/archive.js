@@ -185,6 +185,6 @@ portrait.addEventListener(
 graph.appendChild(portrait);
 ```
 
-}
+})
 
 });
