@@ -21,7 +21,7 @@ form.addEventListener("submit", async (e) => {
     try {
 
         // ==================================================
-        // EMBODIED CAPITAL
+        // 1. EMBODIED CAPITAL
         // ==================================================
 
         const accent =
@@ -47,7 +47,7 @@ form.addEventListener("submit", async (e) => {
 
 
         // ==================================================
-        // OBJECTIFIED CAPITAL
+        // 2. OBJECTIFIED CAPITAL
         // ==================================================
 
         const books =
@@ -100,14 +100,14 @@ form.addEventListener("submit", async (e) => {
 
 
         // ==================================================
-        // INSTITUTIONALIZED CAPITAL
+        // 3. INSTITUTIONALIZED CAPITAL
         // ==================================================
-
-        const bachelor =
-            Number(document.getElementById("bachelor").value || 0);
 
         const master =
             Number(document.getElementById("master").value || 0);
+
+        const bachelor =
+            Number(document.getElementById("bachelor").value || 0);
 
         const research =
             Number(document.getElementById("research").value || 0);
@@ -129,85 +129,38 @@ form.addEventListener("submit", async (e) => {
 
 
         // ==================================================
-        // CALCULATE TOTAL
+        // CALCULATE TOTAL SCORE
         // ==================================================
 
         let points = 0;
 
 
-        // --------------------------------------------------
-        // 1. EMBODIED
-        // --------------------------------------------------
-
-        // Accent
-        // Western Europe       = 0
-        // Central Europe       = -1
-        // Eastern Europe/Russia = -2
-        // Caucasus/Turkey      = -3
-        // Central Asia/Middle East = -4
-        // East/Southeast Asia  = -5
-        // South Asia           = -6
+        // ------------------------------
+        // EMBODIED
+        // ------------------------------
 
         points += accent;
-
-        // Home country GDP
         points += gdp;
-
-        // Paternal home country GDP
         points += fatherGDP;
-
-        // Maternal home country GDP
         points += motherGDP;
-
-        // Father's highest degree
-        // None = 0
-        // Primary = 1
-        // Secondary = 2
-        // Vocational = 3
-        // Bachelor = 4
-        // Master = 5
-        // PhD = 6
-        // Postdoc = 7
-
         points += fatherDegree;
-
-        // Mother's highest degree
         points += motherDegree;
-
-        // Driving licence
-        // Yes = 1
-        // No = 0
-
         points += license;
 
 
-        // --------------------------------------------------
-        // 2. OBJECTIFIED
-        // --------------------------------------------------
-
-        // Numerical answers equal their number of points
+        // ------------------------------
+        // OBJECTIFIED
+        // ------------------------------
 
         points += books;
         points += works;
-
-        // Atelier
-        // Yes = 1
-        // No = 0
-
         points += atelier;
-
         points += institutions;
         points += churches;
         points += mosques;
         points += temples;
         points += sacral;
-
-        // Venice Biennale
-        // Yes = 1
-        // No = 0
-
         points += biennale;
-
         points += concerts;
         points += theatre;
         points += solo;
@@ -217,152 +170,64 @@ form.addEventListener("submit", async (e) => {
         points += mentions;
 
 
-        // --------------------------------------------------
-        // 3. INSTITUTIONALIZED
-        // --------------------------------------------------
+        // ------------------------------
+        // INSTITUTIONALIZED
+        // ------------------------------
 
-        points += bachelor;
         points += master;
+        points += bachelor;
         points += research;
         points += phd;
         points += grants;
         points += residencies;
-
-        // Job in field
-        // Yes = +20
-        // No = -5
-
         points += job;
-
-        // Current lingua franca
-        // A1 = 1
-        // A2 = 2
-        // B1 = 3
-        // B2 = 4
-        // C1 = 5
-        // C2 = 6
-
         points += languageLevel;
 
 
         // ==================================================
-        // COLLECT ALL ANSWERS
+        // COLLECT ANSWERS
         // ==================================================
 
         const answers = {
 
             // Embodied
-            accent:
-                accent,
-
-            languages:
-                Number(document.getElementById("languages").value || 0),
-
-            gdp:
-                gdp,
-
-            parents:
-                Number(document.getElementById("parents").value || 0),
-
-            bothParents:
-                Number(document.getElementById("bothParents").value || 0),
-
-            fatherGDP:
-                fatherGDP,
-
-            motherGDP:
-                motherGDP,
-
-            fatherDegree:
-                fatherDegree,
-
-            motherDegree:
-                motherDegree,
-
-            license:
-                license,
-
-            joke:
-                Number(document.getElementById("joke").value || 0),
+            accent: accent,
+            gdp: gdp,
+            fatherGDP: fatherGDP,
+            motherGDP: motherGDP,
+            fatherDegree: fatherDegree,
+            motherDegree: motherDegree,
+            license: license,
 
 
             // Objectified
-            books:
-                books,
-
-            works:
-                works,
-
-            atelier:
-                atelier,
-
-            apple:
-                Number(document.getElementById("apple").value || 0),
-
-            institutions:
-                institutions,
-
-            churches:
-                churches,
-
-            mosques:
-                mosques,
-
-            temples:
-                temples,
-
-            sacral:
-                sacral,
-
-            biennale:
-                biennale,
-
-            concerts:
-                concerts,
-
-            theatre:
-                theatre,
-
-            solo:
-                solo,
-
-            duo:
-                duo,
-
-            group:
-                group,
-
-            publications:
-                publications,
-
-            mentions:
-                mentions,
+            books: books,
+            works: works,
+            atelier: atelier,
+            institutions: institutions,
+            churches: churches,
+            mosques: mosques,
+            temples: temples,
+            sacral: sacral,
+            biennale: biennale,
+            concerts: concerts,
+            theatre: theatre,
+            solo: solo,
+            duo: duo,
+            group: group,
+            publications: publications,
+            mentions: mentions,
 
 
             // Institutionalized
-            bachelor:
-                bachelor,
-
-            master:
-                master,
-
-            research:
-                research,
-
-            phd:
-                phd,
-
-            grants:
-                grants,
-
-            residencies:
-                residencies,
-
-            job:
-                job,
-
-            languageLevel:
-                languageLevel
+            master: master,
+            bachelor: bachelor,
+            research: research,
+            phd: phd,
+            grants: grants,
+            residencies: residencies,
+            job: job,
+            languageLevel: languageLevel
         };
 
 
@@ -428,11 +293,8 @@ form.addEventListener("submit", async (e) => {
             newSubmissionRef,
             {
                 portraitURL: portraitURL,
-
                 total: points,
-
                 timestamp: Date.now(),
-
                 answers: answers
             }
         );
