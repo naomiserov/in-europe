@@ -1,8 +1,8 @@
 import { db } from "./firebase.js";
 
 import {
-ref,
-onValue
+    ref,
+    onValue
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
 
 const graph = document.getElementById("graph");
@@ -13,178 +13,200 @@ const answersElement = document.getElementById("answers");
 
 const submissionsRef = ref(db, "submissions");
 
+// --------------------------------------------------
+// CLOSE POPUP
+// --------------------------------------------------
+
 window.closePopup = function () {
-popup.classList.add("hidden");
+    if (popup) {
+        popup.classList.add("hidden");
+    }
 };
 
+// --------------------------------------------------
+// OPEN SUBMISSION
+// --------------------------------------------------
+
 function openSubmission(submission) {
+    if (!submission) {
+        return;
+    }
 
-largePortrait.src = submission.portraitURL;
+    // Portrait
+    if (largePortrait) {
+        if (submission.portraitURL) {
+            largePortrait.src = submission.portraitURL;
+            largePortrait.style.display = "block";
+        } else {
+            largePortrait.removeAttribute("src");
+            largePortrait.style.display = "none";
+        }
+    }
 
-totalElement.textContent =
-"Total: " + submission.total;
+    // Total score
+    if (totalElement) {
+        totalElement.textContent =
+            "Total: " + (Number(submission.total) || 0);
+    }
 
-answersElement.innerHTML = "";
+    // Answers
+    if (answersElement) {
+        answersElement.innerHTML = "";
 
-if (submission.answers) {
+        if (submission.answers) {
+            Object.entries(submission.answers).forEach(
+                ([question, value]) => {
+                    const line = document.createElement("p");
 
-```
-Object.entries(submission.answers).forEach(
-  ([question, value]) => {
+                    line.textContent =
+                        question + ": " + value;
 
-    const line =
-      document.createElement("p");
+                    answersElement.appendChild(line);
+                }
+            );
+        }
+    }
 
-    line.textContent =
-      question + ": " + value;
+    // Show popup
+    if (popup) {
+        popup.classList.remove("hidden");
+    }
+}
 
-    answersElement.appendChild(line);
-  }
+// --------------------------------------------------
+// LOAD SUBMISSIONS FROM FIREBASE
+// --------------------------------------------------
+
+onValue(
+    submissionsRef,
+    (snapshot) => {
+
+        // Clear existing graph
+        graph.innerHTML = "";
+
+        const data = snapshot.val();
+
+        // No submissions
+        if (!data) {
+            graph.textContent = "No submissions yet.";
+            return;
+        }
+
+        // Convert Firebase object into array
+        const submissions = Object.values(data);
+
+        // No valid submissions
+        if (submissions.length === 0) {
+            graph.textContent = "No submissions yet.";
+            return;
+        }
+
+        // --------------------------------------------------
+        // SCORES
+        // --------------------------------------------------
+
+        const scores = submissions.map(
+            (submission) => Number(submission.total) || 0
+        );
+
+        const minScore = Math.min(...scores);
+        const maxScore = Math.max(...scores);
+
+        // --------------------------------------------------
+        // SCORE SCALE
+        // --------------------------------------------------
+
+        const scale = document.createElement("div");
+        scale.className = "graphScale";
+
+        const axis = document.createElement("div");
+        axis.className = "scaleLine";
+
+        scale.appendChild(axis);
+
+        const steps = 10;
+
+        for (let i = 0; i <= steps; i++) {
+
+            const number = document.createElement("span");
+
+            let value = minScore;
+
+            if (maxScore !== minScore) {
+                value =
+                    minScore +
+                    ((maxScore - minScore) / steps) * i;
+            }
+
+            number.textContent = Math.round(value);
+
+            number.className = "scaleNumber";
+
+            number.style.bottom =
+                (i / steps) * 100 + "%";
+
+            scale.appendChild(number);
+        }
+
+        graph.appendChild(scale);
+
+        // --------------------------------------------------
+        // PORTRAITS
+        // --------------------------------------------------
+
+        submissions.forEach((submission) => {
+
+            // Don't create an image if there is no portrait
+            if (!submission.portraitURL) {
+                return;
+            }
+
+            const portrait = document.createElement("img");
+
+            portrait.className = "archivePortrait";
+
+            portrait.src = submission.portraitURL;
+
+            portrait.alt = "Cultural capital submission";
+
+            // Score
+            const score =
+                Number(submission.total) || 0;
+
+            // Vertical position
+            let position = 50;
+
+            if (maxScore !== minScore) {
+                position =
+                    ((score - minScore) /
+                    (maxScore - minScore)) * 90 + 5;
+            }
+
+            portrait.style.bottom =
+                position + "%";
+
+            // Horizontal position
+            portrait.style.left = "60%";
+
+            // Click portrait to open submission
+            portrait.addEventListener(
+                "click",
+                () => {
+                    openSubmission(submission);
+                }
+            );
+
+            graph.appendChild(portrait);
+        });
+    },
+    (error) => {
+
+        console.error(
+            "Error loading submissions:",
+            error
+        );
+
+        graph.innerHTML =
+            "Unable to load submissions.";
+    }
 );
-```
-
-}
-
-popup.classList.remove("hidden");
-}
-
-onValue(submissionsRef, (snapshot) => {
-
-graph.innerHTML = "";
-
-const data = snapshot.val();
-
-if (!data) {
-graph.innerHTML = "<p>No submissions yet.</p>";
-return;
-}
-
-const submissions =
-Object.values(data);
-
-const scores =
-submissions.map(
-submission => Number(submission.total) || 0
-);
-
-const minScore =
-Math.min(...scores);
-
-const maxScore =
-Math.max(...scores);
-
-// Create vertical score axis
-
-const scale =
-document.createElement("div");
-
-scale.className =
-"graphScale";
-
-const axis =
-document.createElement("div");
-
-axis.className =
-"scaleLine";
-
-scale.appendChild(axis);
-
-// Add numbers
-
-const steps = 10;
-
-for (let i = 0; i <= steps; i++) {
-
-```
-const number =
-  document.createElement("span");
-
-
-let value = minScore;
-
-
-if (maxScore !== minScore) {
-
-  value =
-    minScore +
-    ((maxScore - minScore) / steps) * i;
-}
-
-
-number.textContent =
-  Math.round(value);
-
-
-number.className =
-  "scaleNumber";
-
-
-number.style.bottom =
-  (i / steps) * 100 + "%";
-
-
-scale.appendChild(number);
-```
-
-}
-
-graph.appendChild(scale);
-
-// Add portraits
-
-submissions.forEach((submission) => {
-
-```
-const portrait =
-  document.createElement("img");
-
-
-portrait.className =
-  "archivePortrait";
-
-
-portrait.src =
-  submission.portraitURL;
-
-
-portrait.alt =
-  "Cultural capital submission";
-
-
-const score =
-  Number(submission.total) || 0;
-
-
-let position = 50;
-
-
-if (maxScore !== minScore) {
-
-  position =
-    ((score - minScore) /
-    (maxScore - minScore)) * 90 + 5;
-}
-
-
-portrait.style.bottom =
-  position + "%";
-
-
-portrait.style.left =
-  "60%";
-
-
-portrait.addEventListener(
-  "click",
-  function () {
-    openSubmission(submission);
-  }
-);
-
-
-graph.appendChild(portrait);
-```
-
-})
-
-});
