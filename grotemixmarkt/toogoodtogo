@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-NPZKD6B6DD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-NPZKD6B6DD');
+</script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+     <meta name="robots" content="noindex,nofollow" />
+    <link rel="stylesheet" type="text/css" href="../mu/mu.css?v=1">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Too Good To Go</title>
+</head>
+<body id="set-width" ondragstart="return false">
+  
+  <div class="text-container">
+  <div class="chapter-overview">
+ <ul>
+    <li><a href="#chapter1">My Birkin Bag</a></li>
+</ul>
+  </div>
+
+<h4 id="chapter1">
+  My Birkin Bag
+</h4>
+
+  <img src="b2.jpeg" alt="/">
+  <img src="b3.jpeg" alt="/">
+  <img src="b6.jpeg" alt="/">
+  <img src="b7.jpeg" alt="/">
+  <img src="b8.jpeg" alt="/">
+<p>
+  My Birkin travelling to be part of the group show <em>Carry-on</em> with the Sandberg Fine Arts department in the Neverneverland Amsterdam. 
+</p>
+   
